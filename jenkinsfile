@@ -11,10 +11,10 @@ pipeline {
             steps {
                  sh '''
 		    whoami
-                    cd /var/jenkins_home/workspace/terraform-pipeline-scm/Terraform-Sentinel-Policies/enforce-secure-reboot/
+                    git log -m --name-only -1 --oneline --pretty=format:"" > /var/jenkins_home/workspace/terraform-pipeline/git_log.txt
+                    git archive --format=zip --output=/C/Users/Sentinel/Sentinel-Policies/`date +"%d%m%Y_H%"`_Sentinel_$(git log -n 1 --pretty=format:"%h").zip $(git log -n 1 --pretty=format:"%h")
+                    cd /var/jenkins_home/workspace/terraform-pipeline/enforce-secure-reboot
 		    terraform plan
-		    cd ../Restrict-MachineType
-		    sentinel test
                  '''
             }
         }
