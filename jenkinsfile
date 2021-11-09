@@ -11,12 +11,21 @@ pipeline {
             steps {
                  sh '''
 		    whoami
-                    git log -m --name-only -1 --oneline --pretty=format:"" > /var/jenkins_home/workspace/terraform-pipeline/git_log.txt
-                    git archive --format=zip --output=/var/jenkins_home/workspace/terraform-pipeline/`date +"%d%m%Y_%H"`_Sentinel_$(git log -n 1 --pretty=format:"%h").zip $(git log -n 1 --pretty=format:"%h")
-                    unzip -o /var/jenkins_home/workspace/terraform-pipeline/`date +"%d%m%Y_%H"`_Sentinel_$(git log -n 1 --pretty=format:"%h").zip 
-		    cd /var/jenkins_home/workspace/terraform-pipeline/enforce-secure-reboot/sample-deployments/success
-		    
-                 '''
+		    git log -m --name-only -1 --oneline --pretty=format:"" > /var/jenkins_home/git_log.txt
+                    commitid=$(git log -n 1 --pretty=format:"%h")
+                    mkdir $commitid
+                    cd $commitid
+                    while read -r LINE
+                    do
+                        echo $i
+                        a="$LINE"
+                        pwd
+                        cp "$a" $commitid
+                        i=$[$i+1]
+                   done < "/var/jenkins_home/git_log.txt"
+		   cd $commitid
+
+		    '''
             }
         }
         stage('Deploy') { 
