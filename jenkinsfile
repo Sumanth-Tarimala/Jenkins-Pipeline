@@ -12,7 +12,7 @@ pipeline {
                  sh '''
 		    whoami
                     git log -m --name-only -1 --oneline --pretty=format:"" > /var/jenkins_home/workspace/terraform-pipeline/git_log.txt
-		    cd /var/jenkins_home/workspace/terraform-pipeline/enforce-secure-reboot
+		    cd /var/jenkins_home/workspace/terraform-pipeline/enforce-secure-reboot/sample-deployments/success
 		    terraform plan
                  '''
             }
