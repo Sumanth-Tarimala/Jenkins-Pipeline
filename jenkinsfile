@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') { 
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'Jenkins', url: 'https://github.com/Sumanth-Tarimala/Sentinel.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'Jenkins', url: 'https://github.com/Sumanth-Tarimala/Jenkins-Pipeline.git']]])
 		echo 'Code Checkout Completed'
             }
         }
@@ -12,7 +12,7 @@ pipeline {
                  sh '''
 		    whoami
                     cd /var/jenkins_home/workspace/terraform-pipeline-scm/Terraform-Sentinel-Policies/enforce-secure-reboot/
-		    sentinel test
+		    terraform plan
 		    cd ../Restrict-MachineType
 		    sentinel test
                  '''
