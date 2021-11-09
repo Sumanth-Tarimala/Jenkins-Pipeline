@@ -1,0 +1,16 @@
+{
+	"records": [
+		{
+			"key": "test\\enforce-secure-reboot\\pass\\tfplan-functions",
+			"source": "../../tfplan-functions.sentinel",
+			"sourceSum": "",
+			"dest": "C:/Program Files/Terraform/Terraform-Sentinel/enforce-secure-reboot/tfplan-functions.sentinel"
+		},
+		{
+			"key": "test\\enforce-secure-reboot\\fail\\tfplan-functions",
+			"source": "../../tfplan-functions.sentinel",
+			"sourceSum": "",
+			"dest": "C:/Program Files/Terraform/Terraform-Sentinel/enforce-secure-reboot/tfplan-functions.sentinel"
+		}
+	]
+}

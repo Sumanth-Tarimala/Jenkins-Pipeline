@@ -1,0 +1,27 @@
+id = "run-kh2niQ54zsb9jMkC"
+created_at = "2021-10-12T06:15:39.612Z"
+message = "Triggered via CLI"
+commit_sha = undefined
+speculative = true
+is_destroy = false
+refresh = true
+refresh_only = false
+replace_addrs = null
+target_addrs = null
+
+variables = {}
+
+organization = {
+	"name": "Sumanth6798",
+}
+
+workspace = {
+	"auto_apply":        false,
+	"created_at":        "2021-10-12T02:00:54.575Z",
+	"description":       "",
+	"id":                "ws-o1JE2UeeC9SQfYAF",
+	"name":              "Sumanth6798",
+	"tags":              [],
+	"vcs_repo":          null,
+	"working_directory": "",
+}
