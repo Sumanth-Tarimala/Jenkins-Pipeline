@@ -1,0 +1,27 @@
+pipeline {
+    agent any 
+    stages {
+        stage('Checkout') { 
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'Jenkins', url: 'https://github.com/Sumanth-Tarimala/Sentinel.git']]])
+		echo 'Code Checkout Completed'
+            }
+        }
+        stage('Build') { 
+            steps {
+                 sh '''
+		    whoami
+                    cd /var/jenkins_home/workspace/terraform-pipeline-scm/Terraform-Sentinel-Policies/enforce-secure-reboot/
+		    sentinel test
+		    cd ../Restrict-MachineType
+		    sentinel test
+                 '''
+            }
+        }
+        stage('Deploy') { 
+            steps {
+                echo ("Deploy Stages") 
+            }
+        }
+    }
+}
