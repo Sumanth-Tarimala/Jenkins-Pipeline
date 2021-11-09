@@ -12,8 +12,8 @@ pipeline {
                  sh '''
 		    whoami
                     git log -m --name-only -1 --oneline --pretty=format:"" > /var/jenkins_home/workspace/terraform-pipeline/git_log.txt
-                    git archive --format=zip --output=/var/jenkins_home/workspace/terraform-pipeline/`date +"%d%m%Y_H%"`_Sentinel_$(git log -n 1 --pretty=format:"%h").zip $(git log -n 1 --pretty=format:"%h")
-                    unzip /var/jenkins_home/workspace/terraform-pipeline/`date +"%d%m%Y_%H"`_Sentinel_$(git log -n 1 --pretty=format:"%h").zip | cd `date +"%d%m%Y_%H"`_Sentinel_$(git log -n 1 --pretty=format:"%h")
+                    git archive --format=zip --output=/var/jenkins_home/workspace/terraform-pipeline/`date +"%d%m%Y_%H"`_Sentinel_$(git log -n 1 --pretty=format:"%h").zip $(git log -n 1 --pretty=format:"%h")
+                    unzip -o /var/jenkins_home/workspace/terraform-pipeline/`date +"%d%m%Y_%H"`_Sentinel_$(git log -n 1 --pretty=format:"%h").zip | cd `date +"%d%m%Y_%H"`_Sentinel_$(git log -n 1 --pretty=format:"%h")
 		    
                  '''
             }
