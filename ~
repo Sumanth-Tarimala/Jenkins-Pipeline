@@ -1,0 +1,37 @@
+pipeline {
+    agent any 
+    stages {
+        stage('Checkout') { 
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'Jenkins', url: 'https://github.com/Sumanth-Tarimala/Jenkins-Pipeline.git']]])
+		echo 'Code Checkout Completed'
+            }
+        }
+        stage('Build') { 
+            steps {
+                 sh '''
+		    whoami
+		    git log -m --name-only -1 --oneline --pretty=format:"" > /var/jenkins_home/git_log.txt
+                    commitid=$(git log -n 1 --pretty=format:"%h")
+                    mkdir $commitid
+                    while read -r LINE
+                    do
+                        echo $i
+                        a="$LINE"
+                        pwd
+                        cp "$a" $commitid
+                        i=$[$i+1]
+                   done < "/var/jenkins_home/git_log.txt"
+		   cd $commitid
+		   cd /var/jenkins_home/workspace/terraform-pipeline/enforce-secure-reboot/
+		   sentinel test
+		    '''
+            }
+        }
+        stage('Deploy') { 
+            steps {
+                echo ("Deploy Stages") 
+            }
+        }
+    }
+}
