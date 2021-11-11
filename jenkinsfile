@@ -23,7 +23,6 @@ pipeline {
                         i=$[$i+1]
                    done < "/var/jenkins_home/git_log.txt"
 		   cd $commitid
-		   cd /var/jenkins_home/workspace/terraform-pipeline/enforce-secure-reboot/
 		   sentinel test
 		    '''
             }
