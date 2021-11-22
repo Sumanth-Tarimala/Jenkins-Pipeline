@@ -4,7 +4,8 @@ resource "google_compute_instance" "default" {
   zone         = "us-central1-a"
   shielded_instance_config {
   
-    enable_secure_boot = false
+    enable_vtpm = true
+    enable_integrity_monitoring = true
     
   }
  
@@ -27,7 +28,7 @@ resource "google_compute_instance" "default" {
     network = "default"
 
     access_config {
-      // Ephemeral Public IP 
+      // Ephemeral public IP
     }
   }
 
