@@ -1,0 +1,34 @@
+# this policy uses the sentinel tfconfig/v2 import for terraform
+import "tfconfig-functions" as config
+
+# Get all SQL instances
+allSQLDatabaseInstance = config.find_resources_by_type("google_sql_database_instance")
+
+unSupportedType = [null, [], ""]
+
+RestrictSQLInstancesWithoutEncryptionKey_rule = {}
+  for allSQLDatabaseInstance as addr, rc {
+    if (rc.config contains "encryption_key_name") and (rc.config.encryption_key_name not in unSupportedType) {
+      if (rc.config.encryption_key_name contains "references") {
+        if (rc.config.encryption_key_name.references in unSupportedType) {
+          print("violation: SQL instance should use Encryption Key", rc.address)
+          RestrictSQLInstancesWithoutEncryptionKey_rule[addr] = rc
+        }
+      } else {
+        if (rc.config.encryption_key_name contains "constant_value") {
+          if (rc.config.encryption_key_name.constant_value in unSupportedType) {
+            print("violation: SQL instance should use Encryption Key", rc.address)
+            RestrictSQLInstancesWithoutEncryptionKey_rule[addr] = rc
+          }
+        }
+      }
+    } else {
+      print("violation: encryption_key_name should be defined for", rc.address)
+      RestrictSQLInstancesWithoutEncryptionKey_rule[addr] = rc
+    }
+  }  
+print ("Policy Validation Rule - Ensure SQL Instance has Emcryption Key name for Encryption")
+# the main rule calls the policy rule(s) and evaluates the final sentinel results
+main = rule {
+  length(RestrictSQLInstancesWithoutEncryptionKey_rule) == 0 
+}
