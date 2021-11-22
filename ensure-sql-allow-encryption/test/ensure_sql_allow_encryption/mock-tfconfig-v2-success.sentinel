@@ -1,0 +1,299 @@
+import "strings"
+
+providers = {
+	"google": {
+		"alias": "",
+		"config": {
+			"credentials": {
+				"constant_value": null,
+			},
+			"project": {
+				"references": [
+					"var.project",
+				],
+			},
+			"region": {
+				"references": [
+					"var.region",
+				],
+			},
+			"zone": {
+				"references": [
+					"var.zone",
+				],
+			},
+		},
+		"module_address":      "",
+		"name":                "google",
+		"provider_config_key": "google",
+		"version_constraint":  "",
+	},
+	"google-beta": {
+		"alias": "",
+		"config": {
+			"credentials": {
+				"constant_value": null,
+			},
+			"project": {
+				"references": [
+					"var.project",
+				],
+			},
+			"region": {
+				"references": [
+					"var.region",
+				],
+			},
+			"zone": {
+				"references": [
+					"var.zone",
+				],
+			},
+		},
+		"module_address":      "",
+		"name":                "google-beta",
+		"provider_config_key": "google-beta",
+		"version_constraint":  "",
+	},
+	"random": {
+		"alias":               "",
+		"config":              {},
+		"module_address":      "",
+		"name":                "random",
+		"provider_config_key": "random",
+		"version_constraint":  "",
+	},
+}
+
+resources = {
+	"google_kms_crypto_key.sql-kms-crypto-key": {
+		"address": "google_kms_crypto_key.sql-kms-crypto-key",
+		"config": {
+			"key_ring": {
+				"references": [
+					"google_kms_key_ring.sql-kms-crypto-ring.id",
+					"google_kms_key_ring.sql-kms-crypto-ring",
+				],
+			},
+			"name": {
+				"references": [
+					"local.sql-kms-crypto",
+				],
+			},
+		},
+		"count": {},
+		"depends_on": [
+			"google_kms_key_ring.sql-kms-crypto-ring",
+		],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "sql-kms-crypto-key",
+		"provider_config_key": "google",
+		"provisioners":        [],
+		"type":                "google_kms_crypto_key",
+	},
+	"google_kms_crypto_key_iam_member.sql-kms-crypto-member": {
+		"address": "google_kms_crypto_key_iam_member.sql-kms-crypto-member",
+		"config": {
+			"crypto_key_id": {
+				"references": [
+					"google_kms_crypto_key.sql-kms-crypto-key.id",
+					"google_kms_crypto_key.sql-kms-crypto-key",
+				],
+			},
+			"member": {
+				"constant_value": "serviceAccount:sentinel-sql@sentinel-sumanth.iam.gserviceaccount.com",
+			},
+			"role": {
+				"constant_value": "roles/cloudkms.cryptoKeyEncrypterDecrypter",
+			},
+		},
+		"count": {},
+		"depends_on": [
+			"google_kms_crypto_key.sql-kms-crypto-key",
+		],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "sql-kms-crypto-member",
+		"provider_config_key": "google",
+		"provisioners":        [],
+		"type":                "google_kms_crypto_key_iam_member",
+	},
+	"google_kms_key_ring.sql-kms-crypto-ring": {
+		"address": "google_kms_key_ring.sql-kms-crypto-ring",
+		"config": {
+			"location": {
+				"references": [
+					"var.region",
+				],
+			},
+			"name": {
+				"references": [
+					"local.sql-kms-crypto",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "sql-kms-crypto-ring",
+		"provider_config_key": "google",
+		"provisioners":        [],
+		"type":                "google_kms_key_ring",
+	},
+	"google_project_service.sql-kms-crypto-service": {
+		"address": "google_project_service.sql-kms-crypto-service",
+		"config": {
+			"disable_dependent_services": {
+				"constant_value": true,
+			},
+			"disable_on_destroy": {
+				"constant_value": false,
+			},
+			"service": {
+				"constant_value": "sql-component.googleapis.com",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "sql-kms-crypto-service",
+		"provider_config_key": "google",
+		"provisioners":        [],
+		"type":                "google_project_service",
+	},
+	"google_sql_database_instance.instance": {
+		"address": "google_sql_database_instance.instance",
+		"config": {
+			"database_version": {
+				"constant_value": "MYSQL_5_7",
+			},
+			"encryption_key_name": {
+				"references": [
+					"google_kms_crypto_key.sql-kms-crypto-key.id",
+					"google_kms_crypto_key.sql-kms-crypto-key",
+				],
+			},
+			"name": {
+				"references": [
+					"random_id.db_name_suffix_sql_encrypt5.hex",
+					"random_id.db_name_suffix_sql_encrypt5",
+				],
+			},
+			"region": {
+				"constant_value": "us-east1",
+			},
+			"settings": [
+				{
+					"ip_configuration": [
+						{
+							"ipv4_enabled": {
+								"constant_value": true,
+							},
+						},
+					],
+					"tier": {
+						"constant_value": "db-f1-micro",
+					},
+				},
+			],
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "instance",
+		"provider_config_key": "google-beta",
+		"provisioners":        [],
+		"type":                "google_sql_database_instance",
+	},
+	"random_id.db_name_suffix_sql_encrypt5": {
+		"address": "random_id.db_name_suffix_sql_encrypt5",
+		"config": {
+			"byte_length": {
+				"constant_value": 4,
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "db_name_suffix_sql_encrypt5",
+		"provider_config_key": "random",
+		"provisioners":        [],
+		"type":                "random_id",
+	},
+	"random_id.id": {
+		"address": "random_id.id",
+		"config": {
+			"byte_length": {
+				"constant_value": 8,
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "id",
+		"provider_config_key": "random",
+		"provisioners":        [],
+		"type":                "random_id",
+	},
+}
+
+provisioners = {}
+
+variables = {
+	"branchname": {
+		"default":        "release",
+		"description":    "Branch name for testing",
+		"module_address": "",
+		"name":           "branchname",
+	},
+	"name_prefix": {
+		"default":        "sentinel",
+		"description":    "The name prefix for the database instance. Will be appended with a random string. Use lowercase letters, numbers, and hyphens. Start with a letter.",
+		"module_address": "",
+		"name":           "name_prefix",
+	},
+	"project": {
+		"default":        "sentinel-sumanth",
+		"description":    "The project ID to host the database in.",
+		"module_address": "",
+		"name":           "project",
+	},
+	"region": {
+		"default":        "us-east1",
+		"description":    "The region to host the database in.",
+		"module_address": "",
+		"name":           "region",
+	},
+	"zone": {
+		"default":        "us-east4-a",
+		"description":    "The zoneto host the database in.",
+		"module_address": "",
+		"name":           "zone",
+	},
+}
+
+outputs = {}
+
+module_calls = {}
+
+strip_index = func(addr) {
+	s = strings.split(addr, ".")
+	for s as i, v {
+		s[i] = strings.split(v, "[")[0]
+	}
+
+	return strings.join(s, ".")
+}
