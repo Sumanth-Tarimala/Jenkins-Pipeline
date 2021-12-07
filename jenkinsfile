@@ -23,7 +23,7 @@ pipeline {
                         i=$[$i+1]
                    done < "/var/jenkins_home/git_log.txt"
 		   cd $commitid
-		   sentinel test
+		   sentinel version
 		    '''
             }
         }
