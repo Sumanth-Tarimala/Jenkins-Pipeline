@@ -17,6 +17,7 @@ pipeline {
 		    cd $sentinel_file
 		    sentinel test
 		    sentinel version
+		    cd /var/jenkins_home/workspace/terraform-pipeline
 		    python3 python-sample.py
 		    '''
             }
