@@ -16,17 +16,7 @@ pipeline {
 		    sentinel_file=$(ls -rth | tail -1)
 		    cd $sentinel_file
 		    sentinel test
-                    mkdir $commitid
-                    while read -r LINE
-                    do
-                        echo $i
-                        a="$LINE"
-                        pwd
-                        cp "$a" $commitid
-                        i=$[$i+1]
-                   done < "/var/jenkins_home/git_log.txt"
-		   cd $commitid
-		   sentinel version
+		    sentinel version
 		    '''
             }
         }
