@@ -17,6 +17,7 @@ pipeline {
 		    cd $sentinel_file
 		    sentinel test
 		    sentinel version
+		    python3 python-sample.py
 		    '''
             }
         }
