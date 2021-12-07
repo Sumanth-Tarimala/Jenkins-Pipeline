@@ -1,0 +1,481 @@
+terraform_version = "1.0.8"
+
+planned_values = {
+	"outputs": {},
+	"resources": {
+		"google_composer_environment.sentinel_composer": {
+			"address":        "google_composer_environment.sentinel_composer",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "sentinel_composer",
+			"provider_name":  "registry.terraform.io/hashicorp/google-beta",
+			"tainted":        false,
+			"type":           "google_composer_environment",
+			"values": {
+				"config": [
+					{
+						"database_config": [
+							{
+								"machine_type": "db-n1-standard-2",
+							},
+						],
+						"environment_size": null,
+						"node_config": [
+							{
+								"machine_type":    "n1-standard-1",
+								"network":         "projects/composer-sentinel/global/networks/default",
+								"service_account": "projects/composer-sentinel/serviceAccounts/composer-sentinel@composer-sentinel.iam.gserviceaccount.com",
+								"subnetwork":      "projects/composer-sentinel/global/subnetworks/default",
+								"tags":            null,
+								"zone":            "us-east1-b",
+							},
+						],
+						"web_server_config": [
+							{
+								"machine_type": "composer-n1-webserver-2",
+							},
+						],
+					},
+				],
+				"labels":   null,
+				"name":     "sentinel-composer-env",
+				"project":  "composer-sentinel",
+				"region":   "us-east1",
+				"timeouts": null,
+			},
+		},
+	},
+}
+
+variables = {
+	"credentials_file": {
+		"name":  "credentials_file",
+		"value": "composer-sentinel-4d0a8eba8451.json",
+	},
+	"project": {
+		"name":  "project",
+		"value": "composer-sentinel",
+	},
+	"region": {
+		"name":  "region",
+		"value": "us-east1",
+	},
+	"region_zone": {
+		"name":  "region_zone",
+		"value": "us-east1-b",
+	},
+	"vpc_region": {
+		"name":  "vpc_region",
+		"value": "us-east1",
+	},
+	"zone": {
+		"name":  "zone",
+		"value": "us-east1-b",
+	},
+}
+
+resource_changes = {
+	"google_composer_environment.sentinel_composer": {
+		"address": "google_composer_environment.sentinel_composer",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"config": [
+					{
+						"database_config": [
+							{
+								"machine_type": "db-n1-standard-2",
+							},
+						],
+						"environment_size": null,
+						"node_config": [
+							{
+								"machine_type":    "n1-standard-1",
+								"network":         "projects/composer-sentinel/global/networks/default",
+								"service_account": "projects/composer-sentinel/serviceAccounts/composer-sentinel@composer-sentinel.iam.gserviceaccount.com",
+								"subnetwork":      "projects/composer-sentinel/global/subnetworks/default",
+								"tags":            null,
+								"zone":            "us-east1-b",
+							},
+						],
+						"web_server_config": [
+							{
+								"machine_type": "composer-n1-webserver-2",
+							},
+						],
+					},
+				],
+				"labels":   null,
+				"name":     "sentinel-composer-env",
+				"project":  "composer-sentinel",
+				"region":   "us-east1",
+				"timeouts": null,
+			},
+			"after_unknown": {
+				"config": [
+					{
+						"airflow_uri":    true,
+						"dag_gcs_prefix": true,
+						"database_config": [
+							{},
+						],
+						"encryption_config":  true,
+						"gke_cluster":        true,
+						"maintenance_window": true,
+						"node_config": [
+							{
+								"disk_size_gb":         true,
+								"enable_ip_masq_agent": true,
+								"ip_allocation_policy": true,
+								"max_pods_per_node":    true,
+								"oauth_scopes":         true,
+							},
+						],
+						"node_count":                 true,
+						"private_environment_config": true,
+						"software_config":            true,
+						"web_server_config": [
+							{},
+						],
+						"web_server_network_access_control": true,
+						"workloads_config":                  true,
+					},
+				],
+				"id": true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "sentinel_composer",
+		"provider_name":  "registry.terraform.io/hashicorp/google-beta",
+		"type":           "google_composer_environment",
+	},
+}
+
+output_changes = {}
+
+raw = {
+	"configuration": {
+		"provider_config": {
+			"google": {
+				"name":               "google",
+				"version_constraint": "4.0.0",
+			},
+			"google-beta": {
+				"expressions": {
+					"credentials": {
+						"references": [
+							"var.credentials_file",
+						],
+					},
+					"project": {
+						"references": [
+							"var.project",
+						],
+					},
+					"region": {
+						"references": [
+							"var.region",
+						],
+					},
+					"zone": {
+						"references": [
+							"var.zone",
+						],
+					},
+				},
+				"name": "google-beta",
+			},
+		},
+		"root_module": {
+			"resources": [
+				{
+					"address": "google_composer_environment.sentinel_composer",
+					"expressions": {
+						"config": [
+							{
+								"database_config": [
+									{
+										"machine_type": {
+											"constant_value": "db-n1-standard-2",
+										},
+									},
+								],
+								"node_config": [
+									{
+										"machine_type": {
+											"constant_value": "n1-standard-1",
+										},
+										"network": {
+											"constant_value": "projects/composer-sentinel/global/networks/default",
+										},
+										"service_account": {
+											"constant_value": "projects/composer-sentinel/serviceAccounts/composer-sentinel@composer-sentinel.iam.gserviceaccount.com",
+										},
+										"subnetwork": {
+											"constant_value": "projects/composer-sentinel/global/subnetworks/default",
+										},
+										"zone": {
+											"references": [
+												"var.zone",
+											],
+										},
+									},
+								],
+								"web_server_config": [
+									{
+										"machine_type": {
+											"constant_value": "composer-n1-webserver-2",
+										},
+									},
+								],
+							},
+						],
+						"name": {
+							"constant_value": "sentinel-composer-env",
+						},
+						"project": {
+							"references": [
+								"var.project",
+							],
+						},
+						"region": {
+							"references": [
+								"var.region",
+							],
+						},
+					},
+					"mode":                "managed",
+					"name":                "sentinel_composer",
+					"provider_config_key": "google-beta",
+					"schema_version":      0,
+					"type":                "google_composer_environment",
+				},
+			],
+			"variables": {
+				"credentials_file": {
+					"default": "composer-sentinel-4d0a8eba8451.json",
+				},
+				"project": {
+					"default": "composer-sentinel",
+				},
+				"region": {
+					"default": "us-east1",
+				},
+				"region_zone": {
+					"default": "us-east1-b",
+				},
+				"vpc_region": {
+					"default": "us-east1",
+				},
+				"zone": {
+					"default": "us-east1-b",
+				},
+			},
+		},
+	},
+	"format_version": "0.2",
+	"planned_values": {
+		"root_module": {
+			"resources": [
+				{
+					"address":        "google_composer_environment.sentinel_composer",
+					"mode":           "managed",
+					"name":           "sentinel_composer",
+					"provider_name":  "registry.terraform.io/hashicorp/google-beta",
+					"schema_version": 0,
+					"sensitive_values": {
+						"config": [
+							{
+								"database_config": [
+									{},
+								],
+								"encryption_config":  [],
+								"maintenance_window": [],
+								"node_config": [
+									{
+										"ip_allocation_policy": [],
+										"oauth_scopes":         [],
+									},
+								],
+								"private_environment_config": [],
+								"software_config":            [],
+								"web_server_config": [
+									{},
+								],
+								"web_server_network_access_control": [],
+								"workloads_config":                  [],
+							},
+						],
+					},
+					"type": "google_composer_environment",
+					"values": {
+						"config": [
+							{
+								"database_config": [
+									{
+										"machine_type": "db-n1-standard-2",
+									},
+								],
+								"environment_size": null,
+								"node_config": [
+									{
+										"machine_type":    "n1-standard-1",
+										"network":         "projects/composer-sentinel/global/networks/default",
+										"service_account": "projects/composer-sentinel/serviceAccounts/composer-sentinel@composer-sentinel.iam.gserviceaccount.com",
+										"subnetwork":      "projects/composer-sentinel/global/subnetworks/default",
+										"tags":            null,
+										"zone":            "us-east1-b",
+									},
+								],
+								"web_server_config": [
+									{
+										"machine_type": "composer-n1-webserver-2",
+									},
+								],
+							},
+						],
+						"labels":   null,
+						"name":     "sentinel-composer-env",
+						"project":  "composer-sentinel",
+						"region":   "us-east1",
+						"timeouts": null,
+					},
+				},
+			],
+		},
+	},
+	"resource_changes": [
+		{
+			"address": "google_composer_environment.sentinel_composer",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"config": [
+						{
+							"database_config": [
+								{
+									"machine_type": "db-n1-standard-2",
+								},
+							],
+							"environment_size": null,
+							"node_config": [
+								{
+									"machine_type":    "n1-standard-1",
+									"network":         "projects/composer-sentinel/global/networks/default",
+									"service_account": "projects/composer-sentinel/serviceAccounts/composer-sentinel@composer-sentinel.iam.gserviceaccount.com",
+									"subnetwork":      "projects/composer-sentinel/global/subnetworks/default",
+									"tags":            null,
+									"zone":            "us-east1-b",
+								},
+							],
+							"web_server_config": [
+								{
+									"machine_type": "composer-n1-webserver-2",
+								},
+							],
+						},
+					],
+					"labels":   null,
+					"name":     "sentinel-composer-env",
+					"project":  "composer-sentinel",
+					"region":   "us-east1",
+					"timeouts": null,
+				},
+				"after_sensitive": {
+					"config": [
+						{
+							"database_config": [
+								{},
+							],
+							"encryption_config":  [],
+							"maintenance_window": [],
+							"node_config": [
+								{
+									"ip_allocation_policy": [],
+									"oauth_scopes":         [],
+								},
+							],
+							"private_environment_config": [],
+							"software_config":            [],
+							"web_server_config": [
+								{},
+							],
+							"web_server_network_access_control": [],
+							"workloads_config":                  [],
+						},
+					],
+				},
+				"after_unknown": {
+					"config": [
+						{
+							"airflow_uri":    true,
+							"dag_gcs_prefix": true,
+							"database_config": [
+								{},
+							],
+							"encryption_config":  true,
+							"gke_cluster":        true,
+							"maintenance_window": true,
+							"node_config": [
+								{
+									"disk_size_gb":         true,
+									"enable_ip_masq_agent": true,
+									"ip_allocation_policy": true,
+									"max_pods_per_node":    true,
+									"oauth_scopes":         true,
+								},
+							],
+							"node_count":                 true,
+							"private_environment_config": true,
+							"software_config":            true,
+							"web_server_config": [
+								{},
+							],
+							"web_server_network_access_control": true,
+							"workloads_config":                  true,
+						},
+					],
+					"id": true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "sentinel_composer",
+			"provider_name": "registry.terraform.io/hashicorp/google-beta",
+			"type":          "google_composer_environment",
+		},
+	],
+	"terraform_version": "1.0.8",
+	"variables": {
+		"credentials_file": {
+			"value": "composer-sentinel-4d0a8eba8451.json",
+		},
+		"project": {
+			"value": "composer-sentinel",
+		},
+		"region": {
+			"value": "us-east1",
+		},
+		"region_zone": {
+			"value": "us-east1-b",
+		},
+		"vpc_region": {
+			"value": "us-east1",
+		},
+		"zone": {
+			"value": "us-east1-b",
+		},
+	},
+}
