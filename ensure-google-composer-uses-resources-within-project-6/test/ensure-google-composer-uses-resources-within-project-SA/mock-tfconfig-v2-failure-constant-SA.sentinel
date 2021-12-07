@@ -1,0 +1,164 @@
+import "strings"
+
+providers = {
+	"google": {
+		"alias":               "",
+		"config":              {},
+		"module_address":      "",
+		"name":                "google",
+		"provider_config_key": "google",
+		"version_constraint":  "4.0.0",
+	},
+	"google-beta": {
+		"alias": "",
+		"config": {
+			"credentials": {
+				"references": [
+					"var.credentials_file",
+				],
+			},
+			"project": {
+				"references": [
+					"var.project",
+				],
+			},
+			"region": {
+				"references": [
+					"var.region",
+				],
+			},
+			"zone": {
+				"references": [
+					"var.zone",
+				],
+			},
+		},
+		"module_address":      "",
+		"name":                "google-beta",
+		"provider_config_key": "google-beta",
+		"version_constraint":  "",
+	},
+}
+
+resources = {
+	"google_composer_environment.sentinel_composer": {
+		"address": "google_composer_environment.sentinel_composer",
+		"config": {
+			"config": [
+				{
+					"database_config": [
+						{
+							"machine_type": {
+								"constant_value": "db-n1-standard-2",
+							},
+						},
+					],
+					"node_config": [
+						{
+							"machine_type": {
+								"constant_value": "n1-standard-1",
+							},
+							"network": {
+								"constant_value": "projects/composer-sentine/global/networks/default",
+							},
+							"service_account": {
+								"constant_value": "projects/composer-sentine/serviceAccounts/composer-sentinel@composer-sentine.iam.gserviceaccount.com",
+							},
+							"subnetwork": {
+								"constant_value": "projects/composer-sentine/global/subnetworks/default",
+							},
+							"zone": {
+								"references": [
+									"var.zone",
+								],
+							},
+						},
+					],
+					"web_server_config": [
+						{
+							"machine_type": {
+								"constant_value": "composer-n1-webserver-2",
+							},
+						},
+					],
+				},
+			],
+			"name": {
+				"constant_value": "sentinel-composer-env",
+			},
+			"project": {
+				"references": [
+					"var.project",
+				],
+			},
+			"region": {
+				"references": [
+					"var.region",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "sentinel_composer",
+		"provider_config_key": "google-beta",
+		"provisioners":        [],
+		"type":                "google_composer_environment",
+	},
+}
+
+provisioners = {}
+
+variables = {
+	"credentials_file": {
+		"default":        "composer-sentinel-4d0a8eba8451.json",
+		"description":    "",
+		"module_address": "",
+		"name":           "credentials_file",
+	},
+	"project": {
+		"default":        "composer-sentinel",
+		"description":    "",
+		"module_address": "",
+		"name":           "project",
+	},
+	"region": {
+		"default":        "us-east1",
+		"description":    "",
+		"module_address": "",
+		"name":           "region",
+	},
+	"region_zone": {
+		"default":        "us-east1-b",
+		"description":    "",
+		"module_address": "",
+		"name":           "region_zone",
+	},
+	"vpc_region": {
+		"default":        "us-east1",
+		"description":    "",
+		"module_address": "",
+		"name":           "vpc_region",
+	},
+	"zone": {
+		"default":        "us-east1-b",
+		"description":    "",
+		"module_address": "",
+		"name":           "zone",
+	},
+}
+
+outputs = {}
+
+module_calls = {}
+
+strip_index = func(addr) {
+	s = strings.split(addr, ".")
+	for s as i, v {
+		s[i] = strings.split(v, "[")[0]
+	}
+
+	return strings.join(s, ".")
+}
