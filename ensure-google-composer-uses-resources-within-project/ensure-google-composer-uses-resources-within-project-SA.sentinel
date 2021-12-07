@@ -1,0 +1,75 @@
+#####"Composer should use the resources within the project else the policy will fail"
+import "tfconfig/v2" as tfconfig
+import "strings"
+import "tfconfig-functions" as config
+import "tfplan-functions" as plan
+import "tfplan/v2" as tfplan
+
+
+# Get all composer resources
+allGoogleComposerEnv = plan.find_resources("google_composer_environment")
+
+#Declaring variables
+serviceAccRef = {}
+composerResourceProject = {}
+violatingNWwithRef = []
+flag = 0
+node = "service_account"
+
+ 
+allComputeNetwork  = plan.find_resources("google_service_account")
+for allGoogleComposerEnv as address, rc {
+  if (rc.change.after contains "project") {
+    composerResourceProject = rc.change.after.project
+    netWorkConfig = tfconfig.resources[tfconfig.strip_index(rc.address)].config.config[0].node_config[0]
+    #Comparing Service Account and Composer Project Names
+    if netWorkConfig contains node {
+      if netWorkConfig[node] contains "references" {
+        #If the node is having references adding it to the serviceAccRef
+        #append(serviceAccRef,netWorkConfig[node].references[1])
+        serviceAccRef[netWorkConfig[node].references[1]] = composerResourceProject
+      } else if netWorkConfig[node] contains "constant_value" {
+        substr1 = strings.split(netWorkConfig[node]["constant_value"],"/")[-1]
+        substr = strings.split(substr1,"@")[1]
+          if (strings.split(substr,".")[0] != composerResourceProject) {
+            print("Referred Service Account -", serviceAccRef,"\n","Google Composer Environment and ", node," should reside in the same project")
+            flag =flag+1
+            append(violatingNWwithRef, rc)
+          }
+      } else {
+        print("Must have constant_value or references")
+        append(violatingNWwithRef, rc)
+      }
+    } else {
+      print("Must have Service Account Resource")
+      append(violatingNWwithRef, rc)
+    }
+  } else {
+    print("project should be defined for Google Composer Environment-", rc.address)
+    append(violatingNWwithRef, rc)
+  }
+}
+
+#Above added References is serviceAccRef is handled here 
+for allComputeNetwork as address, rc {
+  if (rc.address in keys(serviceAccRef)) {
+    if(rc.change.after contains "project") {
+      if (serviceAccRef[rc.address] != rc.change.after.project) {
+        print("Referred topic -", serviceAccRef,"\n","Google Composer Environment and ", node," should reside in the same project")
+        append(violatingNWwithRef, rc)
+        flag =flag+1
+      }
+    } else {
+      print ("project should be declared for Service Account-", rc.address)
+      append(violatingNWwithRef, rc)
+    }
+  }    
+}
+
+
+print("Policy Validation Rule : Ensure Google Composer Environment must reside within the same project as the Service Account")
+print("project values should be defined for all Composer resources")
+
+main = rule {
+  length(violatingNWwithRef) == 0
+}
