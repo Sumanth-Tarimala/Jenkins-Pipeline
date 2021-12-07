@@ -13,6 +13,8 @@ pipeline {
 		    whoami
 		    git log -m --name-only -1 --oneline --pretty=format:"" > /var/jenkins_home/git_log.txt
                     commitid=$(git log -n 1 --pretty=format:"%h")
+		    sentinel_file=$(ls -lrt | tail -f -1)
+		    sentinel test
                     mkdir $commitid
                     while read -r LINE
                     do
