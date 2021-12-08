@@ -11,19 +11,12 @@ pipeline {
             steps {
                  sh '''
 		    whoami
-		    git log -m --name-only -1 --oneline --pretty=format:"" > /var/jenkins_home/git_log.txt
-                    commitid=$(git log -n 1 --pretty=format:"%h")
-                    mkdir $commitid
-                    while read -r LINE
-                    do
-                        echo $i
-                        a="$LINE"
-                        pwd
-                        cp "$a" $commitid
-                        i=$[$i+1]
-                   done < "/var/jenkins_home/git_log.txt"
-		   cd $commitid
-		   sentinel test
+		    sentinel_file=$(ls -rth | tail -1)
+		    cd $sentinel_file
+		    sentinel test
+		    sentinel version
+		    cd /var/jenkins_home/workspace/terraform-pipeline
+		    python3 python-sample.py
 		    '''
             }
         }
@@ -34,3 +27,4 @@ pipeline {
         }
     }
 }
+
