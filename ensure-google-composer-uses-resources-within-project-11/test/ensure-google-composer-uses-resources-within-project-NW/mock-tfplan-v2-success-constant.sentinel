@@ -1,0 +1,562 @@
+terraform_version = "1.0.8"
+
+planned_values = {
+	"outputs": {},
+	"resources": {
+		"google_composer_environment.test": {
+			"address":        "google_composer_environment.test",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "test",
+			"provider_name":  "registry.terraform.io/hashicorp/google-beta",
+			"tainted":        false,
+			"type":           "google_composer_environment",
+			"values": {
+				"config": [
+					{
+						"database_config": [
+							{
+								"machine_type": "db-n1-standard-2",
+							},
+						],
+						"environment_size": null,
+						"node_config": [
+							{
+								"machine_type":    "n1-standard-1",
+								"network":         "projects/terraform1-330807/global/networks/default",
+								"service_account": "sucheta@terraform1-330807.iam.gserviceaccount.com",
+								"subnetwork":      "projects/terraform1-330807/global/subnetworks/default",
+								"tags":            null,
+								"zone":            "us-east1-b",
+							},
+						],
+						"web_server_config": [
+							{
+								"machine_type": "composer-n1-webserver-2",
+							},
+						],
+					},
+				],
+				"labels":   null,
+				"name":     "success-constant-composer-env",
+				"project":  "terraform1-330807",
+				"region":   "us-east1",
+				"timeouts": null,
+			},
+		},
+	},
+}
+
+variables = {
+	"credentials_file": {
+		"name":  "credentials_file",
+		"value": "sucheta.json",
+	},
+	"project": {
+		"name":  "project",
+		"value": "terraform1-330807",
+	},
+	"region": {
+		"name":  "region",
+		"value": "us-east1",
+	},
+	"region_zone": {
+		"name":  "region_zone",
+		"value": "us-east1-b",
+	},
+	"vpc_region": {
+		"name":  "vpc_region",
+		"value": "us-east1",
+	},
+	"zone": {
+		"name":  "zone",
+		"value": "us-east1-b",
+	},
+}
+
+resource_changes = {
+	"google_composer_environment.test": {
+		"address": "google_composer_environment.test",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"config": [
+					{
+						"database_config": [
+							{
+								"machine_type": "db-n1-standard-2",
+							},
+						],
+						"environment_size": null,
+						"node_config": [
+							{
+								"machine_type":    "n1-standard-1",
+								"network":         "projects/terraform1-330807/global/networks/default",
+								"service_account": "sucheta@terraform1-330807.iam.gserviceaccount.com",
+								"subnetwork":      "projects/terraform1-330807/global/subnetworks/default",
+								"tags":            null,
+								"zone":            "us-east1-b",
+							},
+						],
+						"web_server_config": [
+							{
+								"machine_type": "composer-n1-webserver-2",
+							},
+						],
+					},
+				],
+				"labels":   null,
+				"name":     "success-constant-composer-env",
+				"project":  "terraform1-330807",
+				"region":   "us-east1",
+				"timeouts": null,
+			},
+			"after_unknown": {
+				"config": [
+					{
+						"airflow_uri":    true,
+						"dag_gcs_prefix": true,
+						"database_config": [
+							{},
+						],
+						"encryption_config":  true,
+						"gke_cluster":        true,
+						"maintenance_window": true,
+						"node_config": [
+							{
+								"disk_size_gb":         true,
+								"enable_ip_masq_agent": true,
+								"ip_allocation_policy": true,
+								"max_pods_per_node":    true,
+								"oauth_scopes":         true,
+							},
+						],
+						"node_count":                 true,
+						"private_environment_config": true,
+						"software_config":            true,
+						"web_server_config": [
+							{},
+						],
+						"web_server_network_access_control": true,
+						"workloads_config":                  true,
+					},
+				],
+				"id": true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "test",
+		"provider_name":  "registry.terraform.io/hashicorp/google-beta",
+		"type":           "google_composer_environment",
+	},
+	"random_id.id": {
+		"address": "random_id.id",
+		"change": {
+			"actions": [
+				"delete",
+			],
+			"after":         null,
+			"after_unknown": {},
+			"before": {
+				"b64_std":     "QwhfTS5Yoc0=",
+				"b64_url":     "QwhfTS5Yoc0",
+				"byte_length": 8,
+				"dec":         "4830215385449537997",
+				"hex":         "43085f4d2e58a1cd",
+				"id":          "QwhfTS5Yoc0",
+				"keepers":     null,
+				"prefix":      null,
+			},
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "id",
+		"provider_name":  "registry.terraform.io/hashicorp/random",
+		"type":           "random_id",
+	},
+}
+
+output_changes = {}
+
+raw = {
+	"configuration": {
+		"provider_config": {
+			"google": {
+				"name":               "google",
+				"version_constraint": "4.0.0",
+			},
+			"google-beta": {
+				"expressions": {
+					"credentials": {
+						"references": [
+							"var.credentials_file",
+						],
+					},
+					"project": {
+						"references": [
+							"var.project",
+						],
+					},
+					"region": {
+						"references": [
+							"var.region",
+						],
+					},
+					"zone": {
+						"references": [
+							"var.zone",
+						],
+					},
+				},
+				"name": "google-beta",
+			},
+		},
+		"root_module": {
+			"resources": [
+				{
+					"address": "google_composer_environment.test",
+					"expressions": {
+						"config": [
+							{
+								"database_config": [
+									{
+										"machine_type": {
+											"constant_value": "db-n1-standard-2",
+										},
+									},
+								],
+								"node_config": [
+									{
+										"machine_type": {
+											"constant_value": "n1-standard-1",
+										},
+										"network": {
+											"constant_value": "projects/terraform1-330807/global/networks/default",
+										},
+										"service_account": {
+											"constant_value": "sucheta@terraform1-330807.iam.gserviceaccount.com",
+										},
+										"subnetwork": {
+											"constant_value": "projects/terraform1-330807/global/subnetworks/default",
+										},
+										"zone": {
+											"references": [
+												"var.zone",
+											],
+										},
+									},
+								],
+								"web_server_config": [
+									{
+										"machine_type": {
+											"constant_value": "composer-n1-webserver-2",
+										},
+									},
+								],
+							},
+						],
+						"name": {
+							"constant_value": "success-constant-composer-env",
+						},
+						"project": {
+							"references": [
+								"var.project",
+							],
+						},
+						"region": {
+							"references": [
+								"var.region",
+							],
+						},
+					},
+					"mode":                "managed",
+					"name":                "test",
+					"provider_config_key": "google-beta",
+					"schema_version":      0,
+					"type":                "google_composer_environment",
+				},
+			],
+			"variables": {
+				"credentials_file": {
+					"default": "sucheta.json",
+				},
+				"project": {
+					"default": "terraform1-330807",
+				},
+				"region": {
+					"default": "us-east1",
+				},
+				"region_zone": {
+					"default": "us-east1-b",
+				},
+				"vpc_region": {
+					"default": "us-east1",
+				},
+				"zone": {
+					"default": "us-east1-b",
+				},
+			},
+		},
+	},
+	"format_version": "0.2",
+	"planned_values": {
+		"root_module": {
+			"resources": [
+				{
+					"address":        "google_composer_environment.test",
+					"mode":           "managed",
+					"name":           "test",
+					"provider_name":  "registry.terraform.io/hashicorp/google-beta",
+					"schema_version": 0,
+					"sensitive_values": {
+						"config": [
+							{
+								"database_config": [
+									{},
+								],
+								"encryption_config":  [],
+								"maintenance_window": [],
+								"node_config": [
+									{
+										"ip_allocation_policy": [],
+										"oauth_scopes":         [],
+									},
+								],
+								"private_environment_config": [],
+								"software_config":            [],
+								"web_server_config": [
+									{},
+								],
+								"web_server_network_access_control": [],
+								"workloads_config":                  [],
+							},
+						],
+					},
+					"type": "google_composer_environment",
+					"values": {
+						"config": [
+							{
+								"database_config": [
+									{
+										"machine_type": "db-n1-standard-2",
+									},
+								],
+								"environment_size": null,
+								"node_config": [
+									{
+										"machine_type":    "n1-standard-1",
+										"network":         "projects/terraform1-330807/global/networks/default",
+										"service_account": "sucheta@terraform1-330807.iam.gserviceaccount.com",
+										"subnetwork":      "projects/terraform1-330807/global/subnetworks/default",
+										"tags":            null,
+										"zone":            "us-east1-b",
+									},
+								],
+								"web_server_config": [
+									{
+										"machine_type": "composer-n1-webserver-2",
+									},
+								],
+							},
+						],
+						"labels":   null,
+						"name":     "success-constant-composer-env",
+						"project":  "terraform1-330807",
+						"region":   "us-east1",
+						"timeouts": null,
+					},
+				},
+			],
+		},
+	},
+	"prior_state": {
+		"format_version":    "0.2",
+		"terraform_version": "1.0.8",
+		"values": {
+			"root_module": {
+				"resources": [
+					{
+						"address":          "random_id.id",
+						"mode":             "managed",
+						"name":             "id",
+						"provider_name":    "registry.terraform.io/hashicorp/random",
+						"schema_version":   0,
+						"sensitive_values": {},
+						"type":             "random_id",
+						"values": {
+							"b64_std":     "QwhfTS5Yoc0=",
+							"b64_url":     "QwhfTS5Yoc0",
+							"byte_length": 8,
+							"dec":         "4830215385449537997",
+							"hex":         "43085f4d2e58a1cd",
+							"id":          "QwhfTS5Yoc0",
+							"keepers":     null,
+							"prefix":      null,
+						},
+					},
+				],
+			},
+		},
+	},
+	"resource_changes": [
+		{
+			"address": "google_composer_environment.test",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"config": [
+						{
+							"database_config": [
+								{
+									"machine_type": "db-n1-standard-2",
+								},
+							],
+							"environment_size": null,
+							"node_config": [
+								{
+									"machine_type":    "n1-standard-1",
+									"network":         "projects/terraform1-330807/global/networks/default",
+									"service_account": "sucheta@terraform1-330807.iam.gserviceaccount.com",
+									"subnetwork":      "projects/terraform1-330807/global/subnetworks/default",
+									"tags":            null,
+									"zone":            "us-east1-b",
+								},
+							],
+							"web_server_config": [
+								{
+									"machine_type": "composer-n1-webserver-2",
+								},
+							],
+						},
+					],
+					"labels":   null,
+					"name":     "success-constant-composer-env",
+					"project":  "terraform1-330807",
+					"region":   "us-east1",
+					"timeouts": null,
+				},
+				"after_sensitive": {
+					"config": [
+						{
+							"database_config": [
+								{},
+							],
+							"encryption_config":  [],
+							"maintenance_window": [],
+							"node_config": [
+								{
+									"ip_allocation_policy": [],
+									"oauth_scopes":         [],
+								},
+							],
+							"private_environment_config": [],
+							"software_config":            [],
+							"web_server_config": [
+								{},
+							],
+							"web_server_network_access_control": [],
+							"workloads_config":                  [],
+						},
+					],
+				},
+				"after_unknown": {
+					"config": [
+						{
+							"airflow_uri":    true,
+							"dag_gcs_prefix": true,
+							"database_config": [
+								{},
+							],
+							"encryption_config":  true,
+							"gke_cluster":        true,
+							"maintenance_window": true,
+							"node_config": [
+								{
+									"disk_size_gb":         true,
+									"enable_ip_masq_agent": true,
+									"ip_allocation_policy": true,
+									"max_pods_per_node":    true,
+									"oauth_scopes":         true,
+								},
+							],
+							"node_count":                 true,
+							"private_environment_config": true,
+							"software_config":            true,
+							"web_server_config": [
+								{},
+							],
+							"web_server_network_access_control": true,
+							"workloads_config":                  true,
+						},
+					],
+					"id": true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "test",
+			"provider_name": "registry.terraform.io/hashicorp/google-beta",
+			"type":          "google_composer_environment",
+		},
+		{
+			"address": "random_id.id",
+			"change": {
+				"actions": [
+					"delete",
+				],
+				"after_sensitive": false,
+				"after_unknown":   {},
+				"before": {
+					"b64_std":     "QwhfTS5Yoc0=",
+					"b64_url":     "QwhfTS5Yoc0",
+					"byte_length": 8,
+					"dec":         "4830215385449537997",
+					"hex":         "43085f4d2e58a1cd",
+					"id":          "QwhfTS5Yoc0",
+					"keepers":     null,
+					"prefix":      null,
+				},
+				"before_sensitive": {},
+			},
+			"mode":          "managed",
+			"name":          "id",
+			"provider_name": "registry.terraform.io/hashicorp/random",
+			"type":          "random_id",
+		},
+	],
+	"terraform_version": "1.0.8",
+	"variables": {
+		"credentials_file": {
+			"value": "sucheta.json",
+		},
+		"project": {
+			"value": "terraform1-330807",
+		},
+		"region": {
+			"value": "us-east1",
+		},
+		"region_zone": {
+			"value": "us-east1-b",
+		},
+		"vpc_region": {
+			"value": "us-east1",
+		},
+		"zone": {
+			"value": "us-east1-b",
+		},
+	},
+}
