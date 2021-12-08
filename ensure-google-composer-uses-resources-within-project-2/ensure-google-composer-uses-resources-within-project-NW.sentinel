@@ -1,0 +1,72 @@
+#####"Composer should use the resources within the project else the policy will fail"
+import "tfconfig/v2" as tfconfig
+import "strings"
+import "tfconfig-functions" as config
+import "tfplan-functions" as plan
+import "tfplan/v2" as tfplan
+
+# Get all composer resources 
+allGoogleComposerEnv = plan.find_resources("google_composer_environment")
+
+#Declaring variables
+netRef = {}
+composerResourceProject = {}
+violatingNWwithRef = []
+flag = 0
+node = "network"
+ 
+allComputeNetwork  = plan.find_resources("google_compute_network")
+for allGoogleComposerEnv as address, rc {
+  if (rc.change.after contains "project") {
+    composerResourceProject = rc.change.after.project
+    netWorkConfig = tfconfig.resources[tfconfig.strip_index(rc.address)].config.config[0].node_config[0]
+    #Comparing Network and Composer Project Names
+    if netWorkConfig contains node {
+      if netWorkConfig[node] contains "references" {
+        #If the node is having references adding it to the netRef
+        #append(netRef,netWorkConfig[node].references[1])
+		netRef[netWorkConfig[node].references[1]] = composerResourceProject
+      } else if netWorkConfig[node] contains "constant_value" {
+          if strings.split(netWorkConfig[node]["constant_value"],"/")[1] != composerResourceProject {
+            print("Referred Network -", netRef,"\n","Google Composer Environment and ", node," should reside in the same project")
+            flag =flag+1
+            append(violatingNWwithRef, rc)
+          }
+      } else {
+        print("Must have constant_value or references")
+        append(violatingNWwithRef, rc)
+      }
+    } else {
+      print("Must have Network Resource")
+      append(violatingNWwithRef, rc)
+    }
+  } else {
+    print("project should be defined for Google Composer Environment-", rc.address)
+    append(violatingNWwithRef, rc)
+  }
+}
+
+#Above added References is netRef is handled here 
+for allComputeNetwork as address, rc {
+  if (rc.address in keys(netRef)) {
+    print(rc.address)
+    if(rc.change.after contains "project") {
+      if (netRef[rc.address] != rc.change.after.project) {
+        print("Referred topic -", netRef,"\n","Google Composer Environment and ", node," should reside in the same project")
+        append(violatingNWwithRef, rc)
+        flag =flag+1
+      }
+    } else {
+      print ("project should be declared for Network-", rc.address)
+      append(violatingNWwithRef, rc)
+    }
+  }    
+}
+
+
+print("Policy Validation Rule : Ensure Google Composer Environment must reside within the same project as the Network")
+print("project values should be defined for all Composer resources")
+
+main = rule {
+  length(violatingNWwithRef) == 0
+}

@@ -1,0 +1,26 @@
+#####"Composer should use the resources within the project else the policy will fail"
+import "strings"
+import "tfplan-functions" as plan
+import "tfplan/v2" as tfplan
+
+
+# Get all composer resources and service_account resources from tfconfig
+allGoogleOrganizationPolicy = plan.find_resources("google_organization_policy")
+
+#Declaring variables
+
+role_to_check = "iam.automaticIamGrantsForDefaultServiceAccounts"
+
+violatingConstraint = plan.filter_attribute_is_not_value(allGoogleOrganizationPolicy,"constraint", role_to_check, true)
+
+print(violatingConstraint["messages"])
+
+violatingGoogleOrgPolicy = plan.filter_attribute_is_not_value(allGoogleOrganizationPolicy,"boolean_policy.0.enforced", false, true)
+
+print(length(violatingGoogleOrgPolicy["messages"]))
+
+print("Policy Validation Rule : Ensure Automatic IAM Grants must be diabled for Default Service Accounts ")
+
+main = rule {
+  length(violatingGoogleOrgPolicy["messages"]) is 0 and length(violatingConstraint["messages"]) is 0
+}
