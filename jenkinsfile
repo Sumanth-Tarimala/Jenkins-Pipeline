@@ -11,6 +11,7 @@ pipeline {
             steps {
                  sh '''
 		    whoami
+		    git branch
 		    sentinel_file=$(ls -rth | tail -1)
 		    cd $sentinel_file
 		    sentinel test

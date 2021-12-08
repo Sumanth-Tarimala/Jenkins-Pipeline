@@ -1,0 +1,310 @@
+import "strings"
+
+providers = {
+	"google": {
+		"alias": "",
+		"config": {
+			"credentials": {
+				"constant_value": null,
+			},
+			"project": {
+				"references": [
+					"var.project",
+				],
+			},
+			"region": {
+				"references": [
+					"var.region",
+				],
+			},
+			"zone": {
+				"references": [
+					"var.zone",
+				],
+			},
+		},
+		"module_address":      "",
+		"name":                "google",
+		"provider_config_key": "google",
+		"version_constraint":  "",
+	},
+	"google-beta": {
+		"alias": "",
+		"config": {
+			"credentials": {
+				"constant_value": null,
+			},
+			"project": {
+				"references": [
+					"var.project",
+				],
+			},
+			"region": {
+				"references": [
+					"var.region",
+				],
+			},
+			"zone": {
+				"references": [
+					"var.zone",
+				],
+			},
+		},
+		"module_address":      "",
+		"name":                "google-beta",
+		"provider_config_key": "google-beta",
+		"version_constraint":  "",
+	},
+	"random": {
+		"alias":               "",
+		"config":              {},
+		"module_address":      "",
+		"name":                "random",
+		"provider_config_key": "random",
+		"version_constraint":  "",
+	},
+}
+
+resources = {
+	"google_composer_environment.composerenv": {
+		"address": "google_composer_environment.composerenv",
+		"config": {
+			"config": [
+				{
+					"database_config": [
+						{
+							"machine_type": {
+								"constant_value": "db-n1-standard-2",
+							},
+						},
+					],
+					"node_config": [
+						{
+							"machine_type": {
+								"constant_value": "n1-standard-1",
+							},
+							"network": {
+								"references": [
+									"google_compute_network.composernetwork.id",
+									"google_compute_network.composernetwork",
+								],
+							},
+							"service_account": {
+								"references": [
+									"google_service_account.composerSA.name",
+									"google_service_account.composerSA",
+								],
+							},
+							"subnetwork": {
+								"references": [
+									"google_compute_subnetwork.composersubnetwork.id",
+									"google_compute_subnetwork.composersubnetwork",
+								],
+							},
+							"zone": {
+								"constant_value": "us-central1-a",
+							},
+						},
+					],
+					"node_count": {
+						"constant_value": 4,
+					},
+					"web_server_config": [
+						{
+							"machine_type": {
+								"constant_value": "composer-n1-webserver-2",
+							},
+						},
+					],
+				},
+			],
+			"name": {
+				"constant_value": "composer-env-sentinel",
+			},
+			"project": {
+				"constant_value": "sentinel-composer",
+			},
+			"region": {
+				"constant_value": "us-central1",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "composerenv",
+		"provider_config_key": "google-beta",
+		"provisioners":        [],
+		"type":                "google_composer_environment",
+	},
+	"google_compute_network.composernetwork": {
+		"address": "google_compute_network.composernetwork",
+		"config": {
+			"auto_create_subnetworks": {
+				"constant_value": false,
+			},
+			"name": {
+				"constant_value": "composer-test-network",
+			},
+			"project": {
+				"constant_value": "sentinel-composer",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "composernetwork",
+		"provider_config_key": "google",
+		"provisioners":        [],
+		"type":                "google_compute_network",
+	},
+	"google_compute_subnetwork.composersubnetwork": {
+		"address": "google_compute_subnetwork.composersubnetwork",
+		"config": {
+			"ip_cidr_range": {
+				"constant_value": "10.2.0.0/16",
+			},
+			"name": {
+				"constant_value": "composer-test-subnetwork",
+			},
+			"network": {
+				"references": [
+					"google_compute_network.composernetwork.id",
+					"google_compute_network.composernetwork",
+				],
+			},
+			"project": {
+				"constant_value": "sentinel-composer",
+			},
+			"region": {
+				"constant_value": "us-central1",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "composersubnetwork",
+		"provider_config_key": "google",
+		"provisioners":        [],
+		"type":                "google_compute_subnetwork",
+	},
+	"google_project_iam_member.composer-worker": {
+		"address": "google_project_iam_member.composer-worker",
+		"config": {
+			"member": {
+				"references": [
+					"google_service_account.composerSA.email",
+					"google_service_account.composerSA",
+				],
+			},
+			"project": {
+				"constant_value": "sentinel-composer",
+			},
+			"role": {
+				"constant_value": "roles/composer.worker",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "composer-worker",
+		"provider_config_key": "google",
+		"provisioners":        [],
+		"type":                "google_project_iam_member",
+	},
+	"google_service_account.composerSA": {
+		"address": "google_service_account.composerSA",
+		"config": {
+			"account_id": {
+				"constant_value": "composer-env-account",
+			},
+			"display_name": {
+				"constant_value": "Test Service Account for Composer Environment",
+			},
+			"project": {
+				"constant_value": "sentinel-composer",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "composerSA",
+		"provider_config_key": "google",
+		"provisioners":        [],
+		"type":                "google_service_account",
+	},
+	"random_id.id": {
+		"address": "random_id.id",
+		"config": {
+			"byte_length": {
+				"constant_value": 8,
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "id",
+		"provider_config_key": "random",
+		"provisioners":        [],
+		"type":                "random_id",
+	},
+}
+
+provisioners = {}
+
+variables = {
+	"branchname": {
+		"default":        "release",
+		"description":    "Branch name for testing",
+		"module_address": "",
+		"name":           "branchname",
+	},
+	"name_prefix": {
+		"default":        "sentinel",
+		"description":    "The name prefix for the database instance. Will be appended with a random string. Use lowercase letters, numbers, and hyphens. Start with a letter.",
+		"module_address": "",
+		"name":           "name_prefix",
+	},
+	"project": {
+		"default":        "sentinel-sumanth",
+		"description":    "The project ID to host the database in.",
+		"module_address": "",
+		"name":           "project",
+	},
+	"region": {
+		"default":        "us-east4",
+		"description":    "The region to host the database in.",
+		"module_address": "",
+		"name":           "region",
+	},
+	"zone": {
+		"default":        "us-east4-a",
+		"description":    "The zoneto host the database in.",
+		"module_address": "",
+		"name":           "zone",
+	},
+}
+
+outputs = {}
+
+module_calls = {}
+
+strip_index = func(addr) {
+	s = strings.split(addr, ".")
+	for s as i, v {
+		s[i] = strings.split(v, "[")[0]
+	}
+
+	return strings.join(s, ".")
+}
